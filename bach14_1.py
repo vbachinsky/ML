@@ -14,13 +14,13 @@ y = qualifies_double_grade_df["qualifies"]
 X = sk_preprocessing.StandardScaler(with_mean=False).fit_transform(X)
 y = sk_preprocessing.LabelEncoder().fit_transform(y)
 
+X_train, X_test, y_train, y_test = sk_model_selection.train_test_split(X, y)
+
 fig, axs = plt.subplots(4, 1)
 model_conditions = [[10, 0.001], [15, 0.0001], [20, 0.00001], [40, 0.000001]]
 
 for i in range(len(model_conditions)):
-    X_train, X_test, y_train, y_test = sk_model_selection.train_test_split(X, y)
-
-    qualification_model = sk_n_n.MLPClassifier(max_iter=2000, verbose=False,
+    qualification_model = sk_n_n.MLPClassifier(max_iter=2000, verbose=False, activation="tanh",
                                                hidden_layer_sizes=(model_conditions[i][0],),
                                                alpha=model_conditions[i][1]).fit(X_train, y_train)
     print("For {} neurons in hidden layer and alpha = {} accuracy = {}".format(model_conditions[i][0],
